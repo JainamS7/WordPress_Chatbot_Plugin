@@ -1,0 +1,8 @@
+:root {--mzb-colors-primary: #690aa0;
+--mzb-colors-secondary: #54595F;
+--mzb-colors-text: #7A7A7A;
+--mzb-colors-accent: #61CE70;
+--mzb-font-weights-primary: 600;
+--mzb-font-weights-secondary: 400;
+--mzb-font-weights-text: 600;
+--mzb-font-weights-accent: 500;}.mzb-typography-primary {font-weight: var(--mzb-font-weights-primary) !important;}.mzb-typography-secondary {font-weight: var(--mzb-font-weights-secondary) !important;}.mzb-typography-text {font-weight: var(--mzb-font-weights-text) !important;}.mzb-typography-accent {font-weight: var(--mzb-font-weights-accent) !important;}

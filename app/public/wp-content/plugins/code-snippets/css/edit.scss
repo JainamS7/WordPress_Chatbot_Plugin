@@ -1,0 +1,96 @@
+/**
+ * Styles for the edit snippet admin page.
+ */
+
+@use 'common/codemirror';
+@use 'common/badges';
+@use 'common/switch';
+@use 'common/select';
+@use 'common/tooltips';
+@use 'common/modal';
+@use 'common/upsell';
+@use 'edit/form';
+@use 'edit/sidebar';
+@use 'edit/editor';
+@use 'edit/conditions';
+@use 'edit/gpt';
+
+.notice.error blockquote {
+	margin-block-end: 0;
+}
+
+.button svg {
+	block-size: 1rem;
+	vertical-align: middle;
+	line-height: 1;
+	margin: 0;
+}
+
+.snippet-description-container {
+	.wp-editor-tools {
+		padding-block-start: 5px;
+	}
+
+	.wp-editor-tabs {
+		float: inline-start;
+	}
+
+	.generate-button {
+		float: inline-end;
+		margin-block-start: 37px;
+		z-index: 99;
+		position: relative;
+	}
+}
+
+.components-form-token-field__input-container {
+	background: #fff;
+	border-color: #c3c4c7;
+
+	> .components-flex {
+		padding: 12px;
+	}
+}
+
+#titlediv,
+.snippet-type-container {
+	margin-block-end: 24px;
+}
+
+.above-snippet-code {
+	margin-block: 0 15px;
+	display: flex;
+	align-items: center;
+	margin-inline: 0;
+	gap: 8px;
+
+	h2 {
+		margin: 0;
+	}
+
+	.expand-editor-button {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		margin-inline-end: auto;
+
+		.dashicons {
+			inline-size: 18px;
+			block-size: 18px;
+			font-size: 18px;
+		}
+	}
+}
+
+.snippet-name-wrapper {
+	display: flex;
+	gap: 0.5em;
+
+	> :first-child {
+		flex: 1;
+	}
+}
+
+form.condition-snippet .snippet-code-container {
+	display: none;
+}

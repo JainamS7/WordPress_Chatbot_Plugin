@@ -1,0 +1,2010 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ZeroEntropy API",
+    "description": "This API provides access to ZeroEntropy's SoTA retrieval pipeline. Enjoy!",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.zeroentropy.dev/v1",
+      "description": "ZeroEntropy API"
+    },
+    {
+      "url": "https://eu-api.zeroentropy.dev/v1",
+      "description": "ZeroEntropy API (EU datacenters)"
+    }
+  ],
+  "paths": {
+    "/status/get-status": {
+      "post": {
+        "tags": [
+          "Status"
+        ],
+        "summary": "Get Status",
+        "description": "Gets the current indexing status across all documents.\n\nIf a collection name is passed in, it will get the indexing status of only the documents within that collection. Otherwise, it will show the cumulative status across all of your collections.\n\nA `404 Not Found` status code will be returned, if a collection name was provided, but it does not exist.",
+        "operationId": "get_status_status_get_status_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/collections/add-collection": {
+      "post": {
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Add Collection",
+        "description": "Adds a collection.\n\nIf the collection already exists, a `409 Conflict` status code will be returned.",
+        "operationId": "add_collection_collections_add_collection_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCollectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/collections/get-collection-list": {
+      "post": {
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Get Collection List",
+        "description": "Gets a complete list of all of your collections.",
+        "operationId": "get_collection_list_collections_get_collection_list_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EmptyRequest"
+                  }
+                ],
+                "title": "Request",
+                "x-stainless-empty-object": "true",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCollectionListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/collections/delete-collection": {
+      "post": {
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Delete Collection",
+        "description": "Deletes a collection.\n\nA `404 Not Found` status code will be returned, if the provided collection name does not exist.",
+        "operationId": "delete_collection_collections_delete_collection_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCollectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/add-document": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Add Document",
+        "description": "Adds a document to a given collection.\n\nA status code of `201 Created` will be returned if a document was successfully added. A status code of `409 Conflict` will be returned if the given collection already has a document with the same path.\n\nIf `overwrite` is given a value of `true`, then a status code of `200 OK` will be returned if a document was overwritten (Rather than a status code of `409 Conflict`).\n\nWhen a document is inserted, it can take time to appear in the index. Check the `/status/get-status` endpoint to see progress.",
+        "operationId": "add_document_documents_add_document_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDocumentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/update-document": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Update Document",
+        "description": "Updates a document.\n\nThe only attribute currently supported for update is `metadata`. This endpoint can only be called with a non-null `metadata` if the document status is `indexed`.\n\nSometimes, when updating a document, a new document ID will be assigned. For this reason, the previous and the new document ID will both be returned in the response. If the document ID was not updated, then these two IDs will be identical.\n\nA `404 Not Found` status code will be returned, if the provided collection name or document path does not exist.",
+        "operationId": "update_document_documents_update_document_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDocumentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateDocumentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/get-document-info": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Get Document Info",
+        "description": "Retrieves information about a specific document. The request parameters define what information you would like to receive.\n\nA `404 Not Found` will be returned if either the collection name does not exist, or the document path does not exist within the provided collection.",
+        "operationId": "get_document_info_documents_get_document_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDocumentInfoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDocumentInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/get-document-info-list": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Get Document Info List",
+        "description": "Retrives a list of document metadata information that matches the provided filters.\n\nThe documents returned will be sorted by ID in ascending order. `id_gt` can be used for pagination, and should be set to the ID of the last document returned in the previous call.\n\nA `404 Not Found` will be returned if either the collection name does not exist, or the document path does not exist within the provided collection.",
+        "operationId": "get_document_info_list_documents_get_document_info_list_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDocumentInfoListRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDocumentInfoListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/delete-document": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Delete Document",
+        "description": "Deletes a document\n\nA `404 Not Found` status code will be returned, if the provided collection name or document path does not exist.",
+        "operationId": "delete_document_documents_delete_document_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteDocumentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/documents/get-page-info": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Get Page Info",
+        "description": "Retrieves information about a specific page. The request parameters define what information you would like to receive.\n\nA `404 Not Found` will be returned if either the collection name does not exist, or the document path does not exist within the provided collection.",
+        "operationId": "get_page_info_documents_get_page_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPageInfoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPageInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/queries/top-documents": {
+      "post": {
+        "tags": [
+          "Queries"
+        ],
+        "summary": "Top Documents",
+        "description": "Get the top K documents that match the given query",
+        "operationId": "top_documents_queries_top_documents_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopDocumentsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopDocumentsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/queries/top-pages": {
+      "post": {
+        "tags": [
+          "Queries"
+        ],
+        "summary": "Top Pages",
+        "description": "Get the top K pages that match the given query",
+        "operationId": "top_pages_queries_top_pages_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopPagesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopPagesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/queries/top-snippets": {
+      "post": {
+        "tags": [
+          "Queries"
+        ],
+        "summary": "Top Snippets",
+        "description": "Get the top K snippets that match the given query.\n\nYou may choose between coarse and precise snippets. Precise snippets will average ~200 characters, while coarse snippets will average ~2000 characters. The default is coarse snippets. Use the `precise_responses` parameter to adjust.",
+        "operationId": "top_snippets_queries_top_snippets_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopSnippetsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopSnippetsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Description of Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/parsers/parse-document": {
+      "post": {
+        "tags": [
+          "Parsers"
+        ],
+        "summary": "Parse Document",
+        "description": "This provides access to the parsers that we use for indexing. This endpoint will not access any collection or search index, and the result will not be saved. This will use the same parsing method as the `/documents/add-document` endpoint.\n\nA common use-case for this endpoint, is to use our parser in combination with your own pre-processing step, before then uploading it to the search index using the `text-pages` filetype.",
+        "operationId": "parse_document_parsers_parse_document_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParseDocumentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParseDocumentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIBinaryDocument": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "auto"
+            ],
+            "const": "auto",
+            "title": "Type",
+            "description": "When this is set to `auto`, then the file extension and binary data will be used to deduce a filetype automatically. Currently, only `auto` is supported."
+          },
+          "base64_data": {
+            "type": "string",
+            "title": "Base64 Data",
+            "description": "The file's raw data, as a base64-encoded string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "base64_data"
+        ],
+        "title": "APIBinaryDocument"
+      },
+      "APITextDocument": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text"
+            ],
+            "const": "text",
+            "title": "Type",
+            "description": "This field must be `text`"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "The content of this document, as a text string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text"
+        ],
+        "title": "APITextDocument"
+      },
+      "APITextPagesDocument": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text-pages"
+            ],
+            "const": "text-pages",
+            "title": "Type",
+            "description": "This field must be `text-pages`"
+          },
+          "pages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pages",
+            "description": "The content of this document, as an array of strings. Each string will be the content of a full page, and can be retrieved using the Top Pages endpoint. Pages are 0-indexed, so that the first string has index 0, the second string has index 1."
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "pages"
+        ],
+        "title": "APITextPagesDocument"
+      },
+      "AddCollectionRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection to add. The maximum length of this string is 1024 characters. If special characters are used, then the UTF-8 encoded string cannot exceed 1024 bytes."
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name"
+        ],
+        "title": "AddCollectionRequest"
+      },
+      "AddDocumentRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection to be used for this request. A `404 Not Found` status code will be returned if this collection name does not exist."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document that you are adding. A `409 Conflict` status code will be returned if this path already exists, unless `overwrite` is set to `true`."
+          },
+          "content": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/APITextDocument"
+              },
+              {
+                "$ref": "#/components/schemas/APITextPagesDocument"
+              },
+              {
+                "$ref": "#/components/schemas/APIBinaryDocument"
+              }
+            ],
+            "description": "The content of the document. There are three possible JSON types that can be passed into this parameter: `APITextDocument`, `APITextPagesDocument`, `APIBinaryDocument`. The `type` field is how ZeroEntropy will know which document object you have passed in.",
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "auto": "#/components/schemas/APIBinaryDocument",
+                "text": "#/components/schemas/APITextDocument",
+                "text-pages": "#/components/schemas/APITextPagesDocument"
+              }
+            }
+          },
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentMetadataJson"
+              }
+            ],
+            "description": "This is a metadata JSON object that can be used to assign various metadata attributes to your document. The provided object must match the type `dict[str, str | list[str]]`. Please read [Metadata Filtering](/metadata-filtering) for more details. By default, the metadata will be set to `{}`.\n\nNOTE: The UTF-8-encoded JSON string must be less than 65536 bytes (Whitespace does not count). This limit can be increased upon request.",
+            "default": {}
+          },
+          "overwrite": {
+            "type": "boolean",
+            "title": "Overwrite",
+            "description": "Setting this property to true will put this endpoint in \"upsert\" mode: If the document already exists, this action will atomically replace it.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "path",
+          "content"
+        ],
+        "title": "AddDocumentRequest"
+      },
+      "CreateOrganizationRequest": {
+        "properties": {
+          "organization_name": {
+            "type": "string",
+            "title": "Organization Name",
+            "description": "The orgniazation name to create. Must be unique."
+          }
+        },
+        "type": "object",
+        "required": [
+          "organization_name"
+        ],
+        "title": "CreateOrganizationRequest"
+      },
+      "CreateOrganizationResponse": {
+        "properties": {
+          "organization_name": {
+            "type": "string",
+            "title": "Organization Name",
+            "description": "The name of the organization"
+          },
+          "api_key": {
+            "type": "string",
+            "title": "Api Key",
+            "description": "The API Key for this organization."
+          }
+        },
+        "type": "object",
+        "required": [
+          "organization_name",
+          "api_key"
+        ],
+        "title": "CreateOrganizationResponse"
+      },
+      "DefaultResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "This string will always be \"Success!\". This may change in the future.",
+            "default": "Success!"
+          }
+        },
+        "type": "object",
+        "title": "DefaultResponse"
+      },
+      "DeleteCollectionRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection to delete."
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name"
+        ],
+        "title": "DeleteCollectionRequest"
+      },
+      "DeleteDocumentRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document that you are deleting. A `404 Not Found` status code will be returned if no document with this path was found."
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "path"
+        ],
+        "title": "DeleteDocumentRequest"
+      },
+      "DocumentIndexStatus": {
+        "type": "string",
+        "enum": [
+          "parsing_failed",
+          "not_parsed",
+          "parsing",
+          "not_indexed",
+          "indexing",
+          "indexed"
+        ],
+        "title": "DocumentIndexStatus"
+      },
+      "DocumentMetadataJson": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "DocumentMetadataResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/DocumentMetadataJson"
+          },
+          "index_status": {
+            "$ref": "#/components/schemas/DocumentIndexStatus"
+          },
+          "num_pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Pages",
+            "description": "The number of pages in this document. This will be `null` if the document is parsing or failed to parse. It can also be `null` if the document is a filetype that does not support pages."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "collection_name",
+          "path",
+          "metadata",
+          "index_status",
+          "num_pages"
+        ],
+        "title": "DocumentMetadataResponse"
+      },
+      "DocumentResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/DocumentMetadataJson"
+          },
+          "index_status": {
+            "$ref": "#/components/schemas/DocumentIndexStatus"
+          },
+          "num_pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Pages",
+            "description": "The number of pages in this document. This will be `null` if the document is parsing or failed to parse. It can also be `null` if the document is a filetype that does not support pages."
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content",
+            "description": "This will be `null`, unless `include_content` was available and set to `true`."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "collection_name",
+          "path",
+          "metadata",
+          "index_status",
+          "num_pages"
+        ],
+        "title": "DocumentResponse"
+      },
+      "DocumentRetrievalResponse": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The path of the document."
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentMetadataJson"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The metadata for that document. Will be `None` if `include_metadata` is `False`."
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "description": "The relevancy score assigned to this document."
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "metadata",
+          "score"
+        ],
+        "title": "DocumentRetrievalResponse"
+      },
+      "EmptyRequest": {
+        "properties": {},
+        "type": "object",
+        "title": "EmptyRequest"
+      },
+      "GetCollectionListResponse": {
+        "properties": {
+          "collection_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Collection Names",
+            "description": "The names of the matched collections."
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_names"
+        ],
+        "title": "GetCollectionListResponse"
+      },
+      "GetDocumentInfoListRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of documents to return. This field is by default 1024, and cannot be set larger than 1024",
+            "default": 1024
+          },
+          "id_gt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id Gt",
+            "description": "All documents returned will have a UUID strictly greater than the provided UUID. (Comparison will be on the binary representations of the UUIDs)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name"
+        ],
+        "title": "GetDocumentInfoListRequest"
+      },
+      "GetDocumentInfoListResponse": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentMetadataResponse"
+            },
+            "type": "array",
+            "title": "Documents"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "GetDocumentInfoListResponse"
+      },
+      "GetDocumentInfoRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document that you're requesting. A `404 Not Found` status code will be returned if no document with this path was found."
+          },
+          "include_content": {
+            "type": "boolean",
+            "title": "Include Content",
+            "description": "If `true`, then the document response will have the `content` attribute be a `string`, rather than `null`. This string will contain the full contents of the document.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "path"
+        ],
+        "title": "GetDocumentInfoRequest"
+      },
+      "GetDocumentInfoResponse": {
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/DocumentResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document"
+        ],
+        "title": "GetDocumentInfoResponse"
+      },
+      "GetPageInfoRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document whose page you are requesting. A `404 Not Found` status code will be returned if no document with this path was found."
+          },
+          "page_index": {
+            "type": "integer",
+            "title": "Page Index",
+            "description": "The specific page index whose info is being requested. Pages are 0-indexed, so that the 1st page of a PDF is of page index 0. You may use the `num_pages` attribute of `/documents/get-document-info` or `/documents/get-document-info-list` to know what the range of valid indices are. A `404 Not Found` status code will be returned if no such page index exists. "
+          },
+          "include_content": {
+            "type": "boolean",
+            "title": "Include Content",
+            "description": "If `true`, then the response will have the `content` attribute be a `string`, rather than `null`. This string will contain the full contents of the page.",
+            "default": false
+          },
+          "include_image": {
+            "type": "boolean",
+            "title": "Include Image",
+            "description": "If `true`, then the response will have the `image_base64_data` attribute be a `string`*, rather than `null`. This string will contain the image data of the document, as a base64-encoded string. Currently, this data is guaranteed to be a JPEG-encoded image.\n\n*Note that the response may still be `null`, if the page has no image data, such as if the document was uploaded with raw text rather than as a PDF.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "path",
+          "page_index"
+        ],
+        "title": "GetPageInfoRequest"
+      },
+      "GetPageInfoResponse": {
+        "properties": {
+          "page": {
+            "$ref": "#/components/schemas/PageResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page"
+        ],
+        "title": "GetPageInfoResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PageResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document associated with this page."
+          },
+          "page_index": {
+            "type": "integer",
+            "title": "Page Index",
+            "description": "The specific page index of this page. Pages are 0-indexed, so that the 1st page of a PDF is of page index 0."
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content",
+            "description": "The content of the page. This field will only be provided if `include_content` was set to `true`, and the document has finished parsing. Otherwise, this field will be set to `null`."
+          },
+          "image_base64_data": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Base64 Data",
+            "description": "An image of the page. This will be a base64-encoded string. Currently, this data is guaranteed to be a JPEG-encoded image. This field will only be provided if `include_image` was set to `true`, and the document has finished parsing. Also, the document must be a datatype that supports images (PDF, DOCX, PPT, but not .txt). In all other cases, this field will be `null`."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "collection_name",
+          "path",
+          "page_index"
+        ],
+        "title": "PageResponse"
+      },
+      "PageRetrievalResponse": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The path of the document that this page comes from."
+          },
+          "page_index": {
+            "type": "integer",
+            "title": "Page Index",
+            "description": "The index of this page in the document. This field is 0-indexed. So, the 1st page has index 0, and the 2nd page has index 1."
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "description": "The relevancy score assigned to this page."
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content",
+            "description": "The contents of this page. This property will be null when `include_content` is `false`, and a string when `include_content` is `true`."
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "page_index",
+          "score",
+          "content"
+        ],
+        "title": "PageRetrievalResponse",
+        "description": "A Page's metadata."
+      },
+      "ParseDocumentRequest": {
+        "properties": {
+          "base64_data": {
+            "type": "string",
+            "title": "Base64 Data",
+            "description": "The document's raw data, as a base64-encoded string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base64_data"
+        ],
+        "title": "ParseDocumentRequest"
+      },
+      "ParseDocumentResponse": {
+        "properties": {
+          "pages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pages",
+            "description": "The parsed pages. Each string will contain the full contents of a page."
+          }
+        },
+        "type": "object",
+        "required": [
+          "pages"
+        ],
+        "title": "ParseDocumentResponse"
+      },
+      "SnippetResponse": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The path of the document that this snippet comes from."
+          },
+          "start_index": {
+            "type": "integer",
+            "title": "Start Index",
+            "description": "The start index of this snippet."
+          },
+          "end_index": {
+            "type": "integer",
+            "title": "End Index",
+            "description": "The end index of this snippet."
+          },
+          "page_span": {
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "items": {
+              "type": "integer"
+            },
+            "title": "Page Span",
+            "description": "The range of page indices spanned by this snippet, as a 2-tuple of integers. Inclusive on the first page_index and exclusive on the second page_index."
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content",
+            "description": "If requested, this contains the full string content of this snippet."
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "description": "The relevancy score assigned to this snippet."
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "start_index",
+          "end_index",
+          "page_span",
+          "content",
+          "score"
+        ],
+        "title": "SnippetResponse",
+        "description": "This is a Snippet.\n\nA snippet refers to a particular document path, and index range. Note that all documents, regardless of filetype, are converted into `UTF-8`-encoded strings. The `start_index` and `end_index` refer to the range of characters. in that string, that have been matched by this snippet."
+      },
+      "StatusRequest": {
+        "properties": {
+          "collection_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Collection Name",
+            "description": "The collection name to use. If `collection_name` is `null` or omitted, then the cumulative status across all collections will be shown."
+          }
+        },
+        "type": "object",
+        "title": "StatusRequest"
+      },
+      "StatusResponse": {
+        "properties": {
+          "num_documents": {
+            "type": "integer",
+            "title": "Num Documents",
+            "description": "The total number of documents, regardless of their status. It is guaranteed that the sum of all of the other fields, is this number."
+          },
+          "num_parsing_documents": {
+            "type": "integer",
+            "title": "Num Parsing Documents",
+            "description": "The number of documents that are being parsed. This refers files of the type PDF, DOCX, PPT, etc, whose images are being processed, or are waiting to be processed, by our OCR system."
+          },
+          "num_indexing_documents": {
+            "type": "integer",
+            "title": "Num Indexing Documents",
+            "description": "The number of documents being indexed. Indexing occurs only after the document has finished parsing."
+          },
+          "num_indexed_documents": {
+            "type": "integer",
+            "title": "Num Indexed Documents",
+            "description": "The number of documents that are currently indexed."
+          },
+          "num_failed_documents": {
+            "type": "integer",
+            "title": "Num Failed Documents",
+            "description": "The number of failed documents. Failures can occur during either parsing, or indexing. It can occur if the file is malformed or incomplete. If you believe that the file is formatted correctly, please contact us at `founders@zeroentropy.dev` to assist."
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_documents",
+          "num_parsing_documents",
+          "num_indexing_documents",
+          "num_indexed_documents",
+          "num_failed_documents"
+        ],
+        "title": "StatusResponse"
+      },
+      "StrJson": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "TopDocumentsRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "description": "The natural language query to search with. This cannot exceed 4096 characters (A single UTF-8 codepoint, is considered to be 1 character)."
+          },
+          "k": {
+            "type": "integer",
+            "title": "K",
+            "description": "The number of documents to return. If there are not enough documents matching your filters, then fewer may be returned. This number must be between 1 and 2048, inclusive."
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrJson"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query filter to apply. Please read [Metadata Filtering](/metadata-filtering) for more information. If not provided, then all documents will be searched."
+          },
+          "include_metadata": {
+            "type": "boolean",
+            "title": "Include Metadata",
+            "description": "Whether or not to include the metadata in the top documents response. If not provided, then the default will be `False`.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "query",
+          "k"
+        ],
+        "title": "TopDocumentsRequest"
+      },
+      "TopDocumentsResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentRetrievalResponse"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "TopDocumentsResponse"
+      },
+      "TopPagesRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "description": "The natural language query to search with. This cannot exceed 4096 characters (A single UTF-8 codepoint, is considered to be 1 character)."
+          },
+          "k": {
+            "type": "integer",
+            "title": "K",
+            "description": "The number of pages to return. If there are not enough pages matching your filters, then fewer may be returned. This number must be between 1 and 2048, inclusive."
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrJson"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query filter to apply. Please read [Metadata Filtering](/metadata-filtering) for more information. If not provided, then all documents will be searched."
+          },
+          "include_content": {
+            "type": "boolean",
+            "title": "Include Content",
+            "description": "If set to true, then the content of all pages will be returned.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "query",
+          "k"
+        ],
+        "title": "TopPagesRequest"
+      },
+      "TopPagesResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/PageRetrievalResponse"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "TopPagesResponse"
+      },
+      "TopSnippetsRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "description": "The natural language query to search with. This cannot exceed 4096 characters (A single UTF-8 codepoint, is considered to be 1 character)."
+          },
+          "k": {
+            "type": "integer",
+            "title": "K",
+            "description": "The number of snippets to return. If there are not enough snippets matching your filters, then fewer may be returned. This number must be between 1 and 2048, inclusive."
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrJson"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The query filter to apply. Please read [Metadata Filtering](/metadata-filtering) for more information. If not provided, then all documents will be searched."
+          },
+          "precise_responses": {
+            "type": "boolean",
+            "title": "Precise Responses",
+            "description": "Enable precise responses. Precise responses will have higher latency, but provide much more precise snippets. When `precise_responses` is set to `true`, the responses will average 200 characters. If set to `false`, the responses will average 2000 characters. The default is `false`.",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "query",
+          "k"
+        ],
+        "title": "TopSnippetsRequest"
+      },
+      "TopSnippetsResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SnippetResponse"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "TopSnippetsResponse"
+      },
+      "UpdateDocumentRequest": {
+        "properties": {
+          "collection_name": {
+            "type": "string",
+            "title": "Collection Name",
+            "description": "The name of the collection."
+          },
+          "path": {
+            "type": "string",
+            "title": "Path",
+            "description": "The filepath of the document that you are updating. A `404 Not Found` status code will be returned if no document with this path was found."
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentMetadataJson"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "If this field is provided, the given metadata json will replace the document's existing metadata json. In other words, if you want to add a new field, you will need to provide the entire metadata object (Both the original fields, and the new field)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "collection_name",
+          "path"
+        ],
+        "title": "UpdateDocumentRequest"
+      },
+      "UpdateDocumentResponse": {
+        "properties": {
+          "previous_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Previous Id"
+          },
+          "new_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "New Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "previous_id",
+          "new_id"
+        ],
+        "title": "UpdateDocumentResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
